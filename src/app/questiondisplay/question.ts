@@ -1,6 +1,10 @@
 export class Question {
-    id : string;
-    text : string;
-    upvotes : number;
-    downvotes : number;
+  _id : string;
+  QuestionID: String;
+    USerID : String;
+    Question:String;
+    Answer : Array<string>;
+    Upvote:String;
+    Downvote:String
+  __v:number;
   }

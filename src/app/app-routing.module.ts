@@ -5,14 +5,15 @@ import { AuthGuard } from './shared';
 
 const routes: Routes = [
     { path: '', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthGuard] },
+    { path : '', loadChildren: './questiondisplay/questiondisplay.module#QuestiondisplayModule'},
     { path: 'login', loadChildren: './login/login.module#LoginModule' },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'error', loadChildren: './server-error/server-error.module#ServerErrorModule' },
     { path: 'access-denied', loadChildren: './access-denied/access-denied.module#AccessDeniedModule' },
     { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
-    //{ path: 'dashboard', loadChildren: './layout/dashboard/dashboard.module#DashboardModule' },
+    // { path: 'dashboard', loadChildren: './layout/dashboard/dashboard.module#DashboardModule' },
     { path: '**', redirectTo: 'not-found' },
-    
+
 
 ];
 

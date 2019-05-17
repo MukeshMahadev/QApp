@@ -1,11 +1,11 @@
-<p>
-  questionlist works!
-</p>
+
 <ul style="list-style: none;">
   <li *ngFor="let question of questions">
     <div class="card card-block">
-      <h4 class="card-title">Question Id: {{question.id}}</h4>
-      <p class="card-text">The question is about the following : {{question.text}}</p>
+      <h4
+       class="card-title">Question Id: {{question.QuestionID}}</h4>
+       <h4 class="card-title">Question Id: {{question._id}}</h4>
+      <p class="card-text">The question is about the following : {{question.USerID}}</p>
       <div>
         <button type="button" class="btn btn-outline-success" aria-label="Left Align">
           <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Upvote
@@ -15,7 +15,7 @@
           <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Downvote
         </button>
         &nbsp;&nbsp;
-        <button type="button" class="btn btn-outline-danger" aria-label="Left Align">
+        <button type="button" class="btn btn-outline-danger" aria-label="Left Align" (click)="questionDisplay(question)">
           View
         </button>
       </div> 

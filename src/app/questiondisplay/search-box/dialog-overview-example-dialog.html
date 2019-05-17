@@ -1,0 +1,11 @@
+<h1 mat-dialog-title><strong>Type your Question here</strong></h1>
+<div mat-dialog-content>
+  <!--<p>What's your favorite animal?</p>-->
+  <mat-form-field style="width:100%">
+    <input matInput [(ngModel)]="getQuestion" name="getQuestion" [ngModelOptions]="{standalone: true}">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button [mat-dialog-close]="getQuestion" cdkFocusInitial>Post</button>
+</div>

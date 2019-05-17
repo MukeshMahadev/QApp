@@ -1,5 +1,3 @@
-<p>
-  questiondisplay works!
-</p>
-
-<router-outlet></router-outlet>
+<!--<router-outlet></router-outlet>-->
+<app-search-box></app-search-box>
+<app-questionlist (messageEvent)="receiveMessage($event)"></app-questionlist>
