@@ -7,13 +7,17 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
+import { QuestiondisplayModule } from '../questiondisplay/questiondisplay.module';
+
 
 @NgModule({
     imports: [
         CommonModule,
         LayoutRoutingModule,
         TranslateModule,
-        NgbDropdownModule
+        NgbDropdownModule,
+        QuestiondisplayModule
+
     ],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent]
 })

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchBoxComponent implements OnInit {
 
-  public listItems: Array<string> = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan'];
+  public listItems: Array<string> = ["Albania", "Andorra", "Armenia", "Austria", "Azerbaijan"];
   constructor() { }
 
   ngOnInit() {

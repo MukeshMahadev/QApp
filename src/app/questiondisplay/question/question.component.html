@@ -1,3 +1,41 @@
-<h1>
-    This is in Question display : {{question}}
-</h1>
+<!--<h1>
+    This is in Question display : {{questionstring}}
+</h1>-->
+<div class="col-md-8">  
+    <h1>Question : </h1>  
+    <div class="card card-block">
+        <h4 class="card-title">{{QuestionString}}</h4>
+        <div class="col-md-8">
+
+        </div>
+        <button type="button" class="btn btn-outline-primary" (click)="upvote()">
+            UpVotes : {{upvotes}}
+        </button>
+        <button type="button" class="btn btn-outline-primary" (click)="downvote()">
+            Downvotes : {{downvotes}}
+        </button>
+    </div>
+</div>
+
+<div class="col-md-8">
+    <div class="card card-block">
+        
+        <h4 class="card-title"> Want to post an answer.</h4>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Type your Answer here" #setup>
+        </div>
+        <button type="button"
+            class="btn btn-outline-primary"
+            (click)="addAnswer(setup.value)">Post
+        </button>
+    </div>
+</div>
+
+<div class="col-md-8">
+    <h3>Answers </h3>
+</div>
+<div class="col-md-8">
+    <div *ngFor='let a of Answers' class ="card card-block">
+        {{a}}
+    </div>
+</div>

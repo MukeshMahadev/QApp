@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,EventEmitter,Output,Inject} from '@angular/core';
+import { Component, OnInit,ViewChild,EventEmitter,Output,Inject,Input} from '@angular/core';
 import {FormsModule,FormControl,ReactiveFormsModule} from '@angular/forms';
 import { NgModule } from '@angular/core'; 
 import { MatAutocompleteModule, MatInputModule, MatFormFieldModule } from '@angular/material';
@@ -17,6 +17,7 @@ export interface DialogData {
   selector: 'dialog-overview-example-dialog',
   templateUrl: 'dialog-overview-example-dialog.html',
 })
+
 export class DialogOverviewExampleDialog {
 
   constructor(public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,@Inject(MAT_DIALOG_DATA) public data: DialogData) {
@@ -63,23 +64,36 @@ export class DialogOverviewExampleDialog {
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss']
 })
+
 export class SearchBoxComponent implements OnInit {
 
-  animal: string;
-  name: string;
-
+  //animal: string;
+  //name: string;
+  randomNumberBetween0To1000 = Math.floor(Math.random() * 1000);
   myControl = new FormControl();
   questions: Question[];
+  newquestions: Question[];
+  searchedquestion:Question[];
   options: string[];
   getQuestion:string = "";
   SearchedQuestionId : string = "sid";
   newQuestion:Question[];
-  @Output() messageEvent = new EventEmitter<string>();
+  //@Output() messageEvent = new EventEmitter<string>();
   closeResult: string;
+  
 
   constructor(private questionservice :QuestionService,public dialog: MatDialog ) { }
 
-  
+  //TO generate random number for QuestionId
+   generateRandNumber() {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 3; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
 
   ngOnInit() {
     this.questionservice.getQuestions().subscribe(q => this.questions = q);
@@ -87,20 +101,20 @@ export class SearchBoxComponent implements OnInit {
 
   //In sreach box OnSelect event 
   onSelectionChanged(id:string) {
-    this.messageEvent.emit(id);
-    localStorage.setItem(this.SearchedQuestionId,id);
-    alert(id);
+    this.searchedquestion = Object(this.questions.find(x=>x._id===id));
+    alert(JSON.stringify(this.searchedquestion));
+    this.questionservice.searchquestion(this.searchedquestion);
     console.log(id);
   }
 
 
-  postQuestion(question:string)
+  /*postQuestion(question:string)
   {
     alert(this.getQuestion);
     console.log(this.getQuestion);
     this.questionservice.postQuestion(this.newQuestion);
     alert("sent")      
-  }
+  }*/
   
   //get typed question on dialog popup
   openDialog(): void {
@@ -118,20 +132,25 @@ export class SearchBoxComponent implements OnInit {
      //Assign QuestionAndAnswer elements a new value
       this.newQuestion = [{
         _id : "",
-        QuestionID: "Question1",
-        USerID : "User1",
+        QuestionID:  this.randomNumberBetween0To1000 + this.generateRandNumber(),
+        USerID : "User" + this.randomNumberBetween0To1000 + this.generateRandNumber(),
         Question:this.getQuestion,
         Answer : [],
-        Upvote:"",
-        Downvote:"",
+        Upvote:"0",
+        Downvote:"0",
       __v:0
       }];
       alert(JSON.stringify(this.newQuestion));
 
+      //to update view with new question
+      this.questionservice.pushNewQuestion(this.newQuestion,this.questions);
+
       //Post new Question by post request
-      this.questions.concat(this.newQuestion);
       this.questionservice.postQuestion(this.newQuestion).subscribe((response)=>{
-        console.log('response from post data is ', response);});
+        this.questions.concat(response);
+        console.log('response from post data is ', response);
+        console.log('New Question added to Array ', this.questions);
+      });
       alert("Question Sent to Server")
     });
   }
