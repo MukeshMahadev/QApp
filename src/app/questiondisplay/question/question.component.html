@@ -1,6 +1,6 @@
 <!--<h1>
     This is in Question display : {{questionstring}}
-</h1>-->
+</h1>
 <div class="col-md-8">  
     <h1>Question : </h1>  
     <div class="card card-block">
@@ -39,3 +39,80 @@
         {{a}}
     </div>
 </div>
+-->
+<!--<h1>
+    This is in Question display : {{questionstring}}
+</h1>-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{QuestionString}}</h1>
+            <hr class="m-0">
+            <div class="row py-2">
+                <div class="col-md-2 faicons">
+                    <table>
+                        <tr>
+                            <td (click)="upvote()" class="text-muted"><i class="fa fa-thumbs-up" aria-hidden="true">VoteUp</i>  </td>
+                            <td (click)="downvote()" class="pl-3">{{upvotes}}</td>
+                        </tr>
+                        <tr>
+                            <td (click)="downvote()" class="text-muted"><i class="fa fa-thumbs-down" aria-hidden="true">VoteDown</i>  </td>
+                            <td class="pl-3">{{downvotes}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-10">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-none d-md-block">
+            <table>
+                <tr>
+                    <td class="text-muted"><i class="fa fa-thumbs-up" aria-hidden="true">UpVotes</i>  </td>
+                    <td class="pl-3">{{upvotes}}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted"><i class="fa fa-thumbs-down" aria-hidden="true">DownVotes</i>  </td>
+                    <td class="pl-3">{{downvotes}}</td>
+                </tr>
+            </table>
+        </div>
+        <ul *ngIf="Answers.length!=0" style="padding-left:15px;" class="list-group col-md-8">
+            <li class=list-group-item>
+                <h3>{{Answers.length}} Answers</h3>
+            </li>
+            <li *ngFor="let answer of Answers" class="list-group-item">
+                <p>{{answer}}</p>
+            </li>
+        </ul>
+        <hr class="m-0">
+        <div class="col-md-8 my-3">
+                
+            <h4>Your Answer</h4>
+            <div class="form-group">
+                <!-- <input type="text" class="form-control" placeholder="Type your Answer here" #setup> -->
+                <textarea name="" style="width:100%; height:150px;" placeholder="Type your Answer here" #setup></textarea>
+            </div>
+            <div class="d-flex align-items-right justify-content-end">
+                <button type="button"
+                    class="btn btn-outline-danger"
+                    (click)="addAnswer(setup.value)">Post
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 d-none d-md-block">
+            <a routerLink="/questionlist" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+                <span>{{ 'Back to Questions list'}}</span>
+            </a>
+    </div>
+    
+</div>
+
+
+
+
+

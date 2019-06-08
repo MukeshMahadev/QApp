@@ -21,38 +21,41 @@ export class QuestionService {
   searchQuestion = this.SearchnewQuestion.asObservable();
 
   questions:Question[];
-  configUrl: string = "api/questions/";
+  configUrl: string = 'api/questions/';
   constructor(private http:HttpClient) {    
    }
 
-  getQuestions(){
+  getQuestions() {
     return this.http.get<Question[]>(this.configUrl);
   }
 
-  getQuestionById()
-  {
+  getQuestionById() {
 
   }
 
-  postQuestion(questions){
-    console.log(questions)
-    return this.http.post<Question[]>(this.configUrl,questions);
-    console.log("Hitted");
+  postQuestion(questions) {
+    console.log(questions);
+    return this.http.post<Question[]>(this.configUrl, questions);
+    console.log('Hitted');
   }
 
-  //for new question update
-  pushNewQuestion(newqts,oldqts){
-    console.log("before question post",oldqts);
+  // for new question update
+  pushNewQuestion(newqts, oldqts) {
+    console.log('before question post', oldqts);
       this.newQuestion.next(oldqts.concat(newqts));
-      console.log("from post",newqts);
-      console.log("total question post",this.newQuestion);
+      console.log('from post', newqts);
+      console.log('total question post', this.newQuestion);
 
   }
 
-  //search new question
-  searchquestion(searchedQts)
-  {
+  // search new question
+  searchquestion(searchedQts) {
     this.SearchnewQuestion.next(Array<Question>(Object(searchedQts)));
-    console.log("Searched question",searchedQts);
+    console.log('Searched question', searchedQts);
+  }
+
+  updateAnswer(getUpdatedAnswer, id) {
+    console.log('service called', getUpdatedAnswer);
+    return this.http.post<Question>(this.configUrl + '/' + id, getUpdatedAnswer);
   }
 }

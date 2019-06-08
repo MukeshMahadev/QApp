@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {  Router, ActivatedRoute } from '@angular/router';
 import { Question } from '../question';
+import { QuestionService } from '../../shared/services/question.service';
 
 @Component({
   selector: 'app-question',
@@ -16,32 +17,41 @@ export class QuestionComponent implements OnInit {
   QuestionString: string;
   upvotes: number;
   downvotes: number;
-  firstvoteflag:boolean;
-  upvoteflag:boolean;
-  pis:number;
+  firstvoteflag: boolean;
+  upvoteflag: boolean;
+  pis: number;
+  UpdatedAnswerAndQuestion: Question[];
+  answerpostedflag: boolean;
 
-  constructor(private route: ActivatedRoute,
-    private router: Router) {
+  constructor(private questionservice: QuestionService,
+    private route: ActivatedRoute,
+    private router: Router, ) {
       this.route.params.subscribe(params => {
         // console.log(params);
         if (params['qid']) {
           this.questionstring = params['qid'] ;
-          console.log("In QComp"+this.questionstring);
+          console.log('In QComp' + this.questionstring);
           this.obj = JSON.parse(this.questionstring);
           console.log( typeof(this.questionstring) + ' Sucessfully Received in questiondisplay ' + typeof(this.obj));
 
+          //
         }
       });
     }
     // 102017274584;
   ngOnInit() {
-    this.Answers = (this.obj.Answer?this.obj.Answer:[]);
+    this.question_id = (this.obj._id);
+    this.Answers = (this.obj.Answer ? this.obj.Answer : []);
     this.QuestionString = String(this.obj.Question);
     console.log(this.QuestionString);
     console.log(this.Answers);
-    this.downvotes = ((this.obj.Downvote) === '') ? 0 : Number(this.obj.Upvote);
-    this.upvotes = ((this.obj.Upvote) === '') ? 0 : Number(this.obj.Downvote);
-    this.firstvoteflag=false;
+    console.log('Upvotes ' + this.obj.Upvote + ' Type: ' + typeof(Number(this.obj.Upvote)));
+    console.log('Downvotes ' + this.obj.Downvote + ' Type: ' + typeof(Number(this.obj.Downvote)));
+    this.downvotes = (this.obj.Downvote) ? Number(this.obj.Downvote) : 0;
+    this.upvotes = (this.obj.Upvote) ?  Number(this.obj.Upvote) : 0;
+    this.firstvoteflag = false;
+    this.upvoteflag = false;
+    this.answerpostedflag = false;
     /*console.log(this.questionstring._id.);
     this.question_id = this.questionstring._id;
     this.questionID = this.questionstring.QuestionID.valueOf();
@@ -50,30 +60,57 @@ export class QuestionComponent implements OnInit {
     this.downvotes = Number(this.questionstring.Downvote.valueOf());*/
   }
   upvote() {
-    if(!this.firstvoteflag){
-      this.firstvoteflag=true;
-      this.upvoteflag=true;
-      this.upvotes+=1;
-    }
-    else if(!this.upvoteflag){
-      this.upvoteflag =true;
+    if (!this.firstvoteflag) {
+      this.firstvoteflag = true;
+      this.upvoteflag = true;
+      this.upvotes += 1;
+    } else if (!this.upvoteflag) {
+      this.upvoteflag = true;
       this.upvotes += 1;
       this.downvotes -= 1;
     }
   }
   downvote() {
-    if(!this.firstvoteflag){
+    if (!this.firstvoteflag) {
       this.firstvoteflag = true;
       this.upvoteflag = false;
       this.upvotes += 1;
-    } else if(this.upvoteflag) {
+    } else if (this.upvoteflag) {
       this.upvoteflag = false;
       this.upvotes -= 1;
       this.downvotes += 1;
     }
   }
   addAnswer(inputanswer: string) {
-    this.Answers.unshift(inputanswer);
+    if (this.answerpostedflag === true) {alert('You posted an answer just now!'); return; }
+    if (inputanswer !== '' && inputanswer.length > 2 ) {
+      this.answerpostedflag = true;
+      this.Answers.unshift(inputanswer);
+    // alert(this.question_id);
+    this.UpdatedAnswerAndQuestion = [{
+      _id : this.obj._id,
+      QuestionID: this.obj.QuestionID,
+      USerID : this.obj.USerID,
+      Question: this.obj.Question,
+      Answer : this.Answers,
+      Upvote: String(this.upvotes),
+      Downvote: String(this.downvotes),
+    __v: 0
+    }];
+
+    // alert(JSON.stringify(this.UpdatedAnswerAndQuestion));
+
+    // call service to update Answer
+    this.questionservice.updateAnswer(this.UpdatedAnswerAndQuestion, this.obj._id).subscribe((response) => {    });
+    // this.questionservice.updateAnswer("").subscribe((response)=>{    });
     // Call the service to update the entry
+    // Prepare the question object
+    alert('Answer Posted!');
+
+    // this.questionservice.update();
+    } else {
+      alert('The minimum answer length is 2');
+    }
+
   }
 }

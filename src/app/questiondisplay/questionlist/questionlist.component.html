@@ -1,13 +1,13 @@
-
+<!--
 <ul style="list-style: none;">
   <li *ngFor="let question of questions">
     <div class="card card-block" id="qtdiv">
       <h4 class="card-title">Question Id: {{question.QuestionID}}</h4>
       <p class="card-text"><strong> Question : </strong>{{question.Question}}</p>
-      <!--
+      <!-
         <li *ngFor="let ans of question.Answer"><p class="card-text">Answer : {{ans}}</p></li>
       -->      
-      <br/>
+      <!--<br/>
       <div>
         <button type="button" class="btn btn-outline-success" aria-label="Left Align" (click)="increment(question.Upvote,question._id)">
           <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Upvote - <strong  id="greenclr">{{question.Upvote}}</strong>
@@ -22,5 +22,35 @@
         </button>
       </div> 
     </div>
+  </li>
+</ul>
+
+-->
+
+<ul class="list-group">
+  <li class=list-group-item>
+    <h3><strong>Questions</strong></h3>
+  </li>
+  <li *ngFor="let question of questions" class="list-group-item">
+    <!--id="qtdiv"-->
+    <a id="question-title" (click)="questionDisplay(question)"><h4>{{question.Question}}</h4></a>
+    <!--<p><strong>Id: </strong>{{question.QuestionID}}</p>
+     
+        <li *ngFor="let ans of question.Answer"><p class="card-text">Answer : {{ans}}</p></li>
+    -->      
+      <br/>
+      <div class="d-flex align-items-right justify-content-end">
+        <button type="button" class="btn btn-success disabled" aria-label="Left Align" (click)="increment(question.Upvote,question._id)">
+          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><i class="fa fa-thumbs-up" aria-hidden="true"></i> Upvotes  <strong  id="greenclr">{{question.Upvote}}</strong>
+        </button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-danger disabled" aria-label="Left Align" (click)="decement(question.Downvote,question._id)">
+          <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span><i class="fa fa-thumbs-down" aria-hidden="true"></i> Downvotes  <strong id="redclr">{{question.Downvote}}</strong>
+        </button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-primary" aria-label="Left Align" (click)="questionDisplay(question)">
+          <i class="fa fa-eye" aria-hidden="true"></i> View
+        </button>
+      </div>
   </li>
 </ul>

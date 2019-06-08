@@ -5,7 +5,7 @@
       Post Question
     </button>-->
     
-    
+    <h5>Got a Question ?</h5>
   <mat-form-field class="example-full-width" style="left: 40px;"> 
     <input type="search" placeholder="search question here" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event.option.id)">
@@ -25,9 +25,11 @@
       <button mat-raised-button (click)="openDialog()" style="position: absolute;right: 15px; 
       top: 25px;width: 45%;background-color: #b92b27;text-decoration-color: white;">Post Question</button>
 
-    <li *ngIf="animal">
+    <!--
+      <li *ngIf="animal">
       You chose: <i>{{animal}}</i>
     </li>
+    -->
   
 
   
